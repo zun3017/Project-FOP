@@ -26,7 +26,7 @@ void print(string** arr, mapsize a)
 }
 void creatmap(string**& arr, mapsize a)
 {
-	arr = new string* [a.row];
+	arr = new string * [a.row];
 	for (int i = 0; i < a.row; i++)
 	{
 		arr[i] = new string[a.col];
@@ -41,12 +41,12 @@ void creatmap(string**& arr, mapsize a)
 			}
 			else if (i == 0)
 			{
-				arr[i][j] = to_string(j);
-				
+				arr[i][j] = to_string(j-1);
+
 			}
 			else if (j == 0)
 			{
-				arr[i][j] = to_string(i);
+				arr[i][j] = to_string(i-1);
 			}
 			else
 			{
@@ -71,7 +71,7 @@ bool checkraw(string** arr, mapsize a, position b)
 			break;
 		}
 	}
-	for (int i = b.colp-1; i > 0 ; i--)
+	for (int i = b.colp - 1; i > 0; i--)
 	{
 		if (arr[b.rowp][i] == check)
 		{
@@ -99,7 +99,7 @@ bool checkcol(string** arr, mapsize a, position b)
 			break;
 		}
 	}
-	for (int i = b.rowp-1; i > 0; i--)
+	for (int i = b.rowp - 1; i > 0; i--)
 	{
 		if (arr[i][b.colp] == check)
 		{
@@ -127,7 +127,7 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 			break;
 		}
 	}
-	for (int i = b.rowp-1, j = b.colp-1; i > 0 && j > 0; i--, j--)
+	for (int i = b.rowp - 1, j = b.colp - 1; i > 0 && j > 0; i--, j--)
 	{
 		if (arr[i][j] == check)
 		{
@@ -140,7 +140,7 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 	}
 	if (count >= 5)return true;
 	count = 0;
-	for (int i = b.rowp, j = b.colp; i > 0 && j< a.col; i--, j++)
+	for (int i = b.rowp, j = b.colp; i > 0 && j < a.col; i--, j++)
 	{
 		if (arr[i][j] == check)
 		{
@@ -151,7 +151,7 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 			break;
 		}
 	}
-	for (int i = b.rowp+1, j = b.colp-1; i <a.row && j > 0; i++, j--)
+	for (int i = b.rowp + 1, j = b.colp - 1; i < a.row && j > 0; i++, j--)
 	{
 		if (arr[i][j] == check)
 		{
