@@ -2,7 +2,6 @@
 #include <print>
 #include <iomanip>
 #include <string>
-#include <limits>
 
 using namespace std;
 
@@ -319,81 +318,14 @@ bool checkGameOver(string** arr, mapsize a, position p, int moves) {
 	return false;
 }
 
-struct Node {
-    position data;
-    Node* next;
-};
+// 5: Hoàn tác nước đi
 
-struct Stack {
-    Node* top;
-};
-
-void init(Stack& s) {
-    s.top = nullptr;
-}
-
-bool isEmpty(Stack s) {
-    return s.top == nullptr;
-}
-
-void push(Stack& s, position x) {
-    Node* newNode = new Node;
-    newNode->data = x;
-    newNode->next = s.top;
-    s.top = newNode;
-}
-
-bool pop(Stack& s, position& x) {
-    if (isEmpty(s)) return false;
-
-    Node* temp = s.top;
-    x = temp->data;
-    s.top = temp->next;
-    delete temp;
-    return true;
-}
-
-// 5: Hoàn tác nước đi 
-
-bool handleUndoOrContinue(string** arr, Stack& history, string& currentPlayer, int& totalMoves) {
-    cout << "\nNhap 'u' de undo hoac 'ENTER' de nhap nuoc di: ";
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    string choice;
-    getline(cin, choice);
-
-    if (choice == "u") {
-        position prev;
-        if (pop(history, prev)) {
-            arr[prev.rowp][prev.colp] = ".";
-            totalMoves--;
-            switchTurn(currentPlayer);
-            cout << "Da hoan tac nuoc di!\n";
-        } else {
-            cout << "Khong co nuoc de hoan tac!\n";
-        }
-        return true; // đã xử lý undo
-    }
-
-    return false; // tiếp tục nhập nước đi
-}
-
-void undoMove(string** arr, Stack& history, string& currentPlayer, int& totalMoves) {
-    position prev;
-    if (pop(history, prev)) {
-        arr[prev.rowp][prev.colp] = "."; // xóa nước đi
-        totalMoves--;
-        switchTurn(currentPlayer); // trả lại lượt
-        cout << "Da hoan tac nuoc di!\n";
-    }
-    else {
-        cout << "Khong co nuoc de hoan tac!\n";
-    }
-}
 
 
 
 // 12: Chế độ 2 người chơi
+
+
 
 
 
@@ -411,10 +343,8 @@ void deleteArray(string** arr,mapsize a)
 int main()
 {
 	mapsize a = { 0,0 };
-	string** arr=nullptr;
-	Stack history;
-	init(history);
-	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước: \n", arr, a);
+	string** arr = nullptr;
+	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước:\n", arr, a);
 	
 	if (arr != nullptr) {
 		string currentPlayer = "X";
@@ -423,14 +353,7 @@ int main()
 		bool isFinished = false;
 
 		while (!isFinished) {
-			if (handleUndoOrContinue(arr, history, currentPlayer, totalMoves)) {
-				print(arr, a);
-				continue; // quay lại vòng lặp
-			}
-
 			if (makeMove(arr, a, lastMove, currentPlayer)) {
-				push(history, lastMove); // Lưu lịch sử nước đi
-
 				print(arr, a);
 				totalMoves++;
 
