@@ -255,10 +255,12 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 	}
 	return count >= 5;
 }
+
 //11 Luân phiên lượt chơi
 void switchTurn(string& currentPlayer) {
 	currentPlayer = (currentPlayer == "X") ? "O" : "X";
 }
+
 //9:Nhập nước đi.
 bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 	cout << "\nLuot cua [" << playerMark << "]. Nhap Hang va Cot (vi du: 0 0): ";
@@ -278,6 +280,7 @@ bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 	cout << "Vi tri khong hop le! Vui long chon o khac.\n";
 	return false;
 }
+
 //10:Kiểm tra thắng thua
 bool checkGameOver(string** arr, mapsize a, position p, int moves) {
 	string mark = arr[p.rowp][p.colp];
@@ -329,6 +332,7 @@ int main()
 	mapsize a = { 0,0 };
 	string** arr=nullptr;
 	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước :\n", arr, a);
+	
 	if (arr != nullptr) {
 		string currentPlayer = "X";
 		position lastMove;
