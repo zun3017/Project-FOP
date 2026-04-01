@@ -255,12 +255,10 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 	}
 	return count >= 5;
 }
-
 //11 Luân phiên lượt chơi
 void switchTurn(string& currentPlayer) {
 	currentPlayer = (currentPlayer == "X") ? "O" : "X";
 }
-
 //9:Nhập nước đi.
 bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 	cout << "\nLuot cua [" << playerMark << "]. Nhap Hang va Cot (vi du: 0 0): ";
@@ -271,7 +269,6 @@ bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 	}
 	int r = p.rowp + 1;
 	int c = p.colp + 1;
-
 	if (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == ".") {
 		arr[r][c] = playerMark;
 		p.rowp = r; // Cập nhật vị trí thực tế trong mảng để kiểm tra thắng
