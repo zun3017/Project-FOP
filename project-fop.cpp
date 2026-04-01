@@ -269,8 +269,6 @@ bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 		cin.ignore(1000, '\n');
 		return false;
 	}
-
-	// Vì hàng 0 và cột 0 là tiêu đề, ta cộng thêm 1 để vào đúng ô trong mảng
 	int r = p.rowp + 1;
 	int c = p.colp + 1;
 
@@ -283,7 +281,6 @@ bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
 	cout << "Vi tri khong hop le! Vui long chon o khac.\n";
 	return false;
 }
-
 //10:Kiểm tra thắng thua
 bool checkGameOver(string** arr, mapsize a, position p, int moves) {
 	string mark = arr[p.rowp][p.colp];
