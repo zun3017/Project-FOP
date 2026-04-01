@@ -256,31 +256,62 @@ bool checkdiagonal(string** arr, mapsize a, position b)
 	return count >= 5;
 }
 
+//11 Luân phiên lượt chơi
+void switchTurn(string& currentPlayer) {
+	currentPlayer = (currentPlayer == "X") ? "O" : "X";
+}
 
+//9:Nhập nước đi.
+bool makeMove(string** arr, mapsize a, position& p, string playerMark) {
+	cout << "\nLuot cua [" << playerMark << "]. Nhap Hang va Cot (vi du: 0 0): ";
+	if (!(cin >> p.rowp >> p.colp)) {
+		cin.clear();
+		cin.ignore(1000, '\n');
+		return false;
+	}
 
+	// Vì hàng 0 và cột 0 là tiêu đề, ta cộng thêm 1 để vào đúng ô trong mảng
+	int r = p.rowp + 1;
+	int c = p.colp + 1;
 
+	if (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == ".") {
+		arr[r][c] = playerMark;
+		p.rowp = r; // Cập nhật vị trí thực tế trong mảng để kiểm tra thắng
+		p.colp = c;
+		return true;
+	}
+	cout << "Vi tri khong hop le! Vui long chon o khac.\n";
+	return false;
+}
 
+//10:Kiểm tra thắng thua
+bool checkGameOver(string** arr, mapsize a, position p, int moves) {
+	string mark = arr[p.rowp][p.colp];
+	int dr[] = { 0, 1, 1, 1 }; // Ngang, Dọc, Chéo xuôi, Chéo ngược
+	int dc[] = { 1, 0, 1, -1 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	for (int i = 0; i < 4; i++) {
+		int count = 1;
+		for (int dir = -1; dir <= 1; dir += 2) {
+			int r = p.rowp + dr[i] * dir;
+			int c = p.colp + dc[i] * dir;
+			while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark) {
+				count++;
+				r += dr[i] * dir;
+				c += dc[i] * dir;
+			}
+		}
+		if (count >= 5) {
+			cout << "\nNGUOI CHOI [" << mark << "] CHIEN THANG!\n";
+			return true;
+		}
+	}
+	if (moves == (a.row - 1) * (a.col - 1)) {
+		cout << "\nKET QUA HOA!\n";
+		return true;
+	}
+	return false;
+}
 
 
 
@@ -304,12 +335,27 @@ int main()
 	mapsize a = { 0,0 };
 	string** arr=nullptr;
 	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước :\n", arr, a);
+	if (arr != nullptr) {
+		string currentPlayer = "X";
+		position lastMove;
+		int totalMoves = 0;
+		bool isFinished = false;
 
+		while (!isFinished) {
+			if (makeMove(arr, a, lastMove, currentPlayer)) {
+				print(arr, a);
+				totalMoves++;
 
-
-
-
-	deleteArray(arr, a);
+				if (checkGameOver(arr, a, lastMove, totalMoves)) {
+					isFinished = true;
+				}
+				else {
+					switchTurn(currentPlayer); // Chức năng 11
+				}
+			}
+		}
+		deleteArray(arr, a);
+	}
 	return 0;
 }
 
