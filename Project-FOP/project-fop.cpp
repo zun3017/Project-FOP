@@ -18,6 +18,36 @@ void displayMainMenu() {
     cout << "=========================================\n";
     cout << " Nhap lua chon cua ban (1-3): ";
 }
+// 04: Chon chuc nang tu menu
+int getMenuChoice() {
+    int choice;
+    // Gọi hàm hiển thị của Nhiệm vụ 03 trước khi yêu cầu nhập
+    // displayMainMenu(); 
+
+    while (!(cin >> choice) || choice < 1 || choice > 3) {
+        cout << "Lua chon khong hop le! Vui long nhap lai (1-3): ";
+        cin.clear(); // Xóa trạng thái lỗi nếu người dùng nhập chữ thay vì số
+        cin.ignore(1000, '\n'); // Loại bỏ các ký tự thừa trong bộ nhớ đệm
+    }
+    return choice;
+}
+// 06: In thong bao / huong dan
+void printInstructions() {
+    cout << "\n=========================================================\n";
+    cout << "||                 HUONG DAN CACH CHOI                 ||\n";
+    cout << "=========================================================\n";
+    cout << "|| 1. Tro choi Caro (Gomoku) danh cho 2 nguoi (X va O).||\n";
+    cout << "|| 2. Nguoi choi luan phien chon hang va cot de danh.  ||\n";
+    cout << "|| 3. Nguoi chien thang la nguoi dau tien tao duoc     ||\n";
+    cout << "||    mot duong lien tiep gom dung 5 quan co cua minh  ||\n";
+    cout << "||    (theo chieu ngang, doc, hoac cheo).              ||\n";
+    cout << "|| 4. Neu ban co kin ma khong ai du 5 quan, hoa!       ||\n";
+    cout << "=========================================================\n";
+    cout << " Nhap phim bat ky (va nhan Enter) de quay lai Menu... ";
+    
+    string dummy;
+    cin >> dummy; // Dừng màn hình để người dùng có thời gian đọc luật chơi
+}
 struct mapsize
 {
 	int row;
