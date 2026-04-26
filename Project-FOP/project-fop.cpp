@@ -385,32 +385,56 @@ void deleteArray(string** arr,mapsize a)
 
 int main()
 {
-	mapsize a = { 0,0 };
-	string** arr = nullptr;
-	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước:\n", arr, a);
-	
-	if (arr != nullptr) {
-		string currentPlayer = "X";
-		position lastMove;
-		int totalMoves = 0;
-		bool isFinished = false;
+    // --- KHAI BAO CAC BIEN CAN THIET ---
+    mapsize a = { 0,0 };
+    string** arr = nullptr;
+    int choice = 0;
 
-		while (!isFinished) {
-			if (makeMove(arr, a, lastMove, currentPlayer)) {
-				print(arr, a);
-				totalMoves++;
+    // --- VONG LAP MENU CHINH ---
+    do {
+        displayMainMenu();    // Goi Nhiem vu 03
+        choice = getMenuChoice(); // Goi Nhiem vu 04
 
-				if (checkGameOver(arr, a, lastMove, totalMoves)) {
-					isFinished = true;
-				}
-				else {
-					switchTurn(currentPlayer); // Chức năng 11
-				}
-			}
-		}
-		deleteArray(arr, a);
-	}
-	return 0;
+        switch (choice) {
+        case 1: // Bat dau choi
+        {
+            // --- ĐÂY LÀ LOGIC GỐC CỦA NHÓM CẬU ---
+            creatmap("Nguoi choi lua chon chon kich thuoc ban do hoac tu nhap kich thuoc:\n", arr, a);
+            
+            if (arr != nullptr) {
+                string currentPlayer = "X";
+                position lastMove;
+                int totalMoves = 0;
+                bool isFinished = false;
+
+                while (!isFinished) {
+                    if (makeMove(arr, a, lastMove, currentPlayer)) {
+                        print(arr, a);
+                        totalMoves++;
+
+                        if (checkGameOver(arr, a, lastMove, totalMoves)) {
+                            isFinished = true;
+                        }
+                        else {
+                            switchTurn(currentPlayer);
+                        }
+                    }
+                }
+                deleteArray(arr, a);
+                arr = nullptr; // Đặt lại về nullptr để có thể chơi ván mới an toàn
+            }
+            break;
+        }
+        case 2: // Huong dan
+            printInstructions(); // Goi Nhiem vu 06
+            break;
+        case 3: // Thoat
+            cout << "\nCam on Tony da trai nghiem game! Hen gap lai nhe~ ✨\n";
+            break;
+        }
+    } while (choice != 3); // Tiep tuc cho den khi chon Thoat
+
+    return 0;
 }
 
 
