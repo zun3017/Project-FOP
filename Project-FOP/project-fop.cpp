@@ -5,6 +5,19 @@
 
 using namespace std;
 
+// 03: Hien thi menu
+void displayMainMenu() {
+    cout << "\n=========================================\n";
+    cout << "||           GAME CARO (GOMOKU)        ||\n";
+    cout << "=========================================\n";
+    cout << "||                                     ||\n";
+    cout << "||      1. Bat dau choi                ||\n"; 
+    cout << "||      2. Huong dan cach choi         ||\n"; 
+    cout << "||      3. Thoat game                  ||\n";
+    cout << "||                                     ||\n";
+    cout << "=========================================\n";
+    cout << " Nhap lua chon cua ban (1-3): ";
+}
 struct mapsize
 {
 	int row;
