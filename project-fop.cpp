@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <print>
 #include <iomanip>
 #include <string>
 #include <limits>
@@ -14,43 +13,91 @@ int main()
 	Stack history;
 	init(history);
 	string player1, player2;
+	int win1 = 0;
+	int win2 = 0;
 	enterName("Nhap ten nguoi choi X: ", player1);
 	enterName("Nhap ten nguoi choi O: ", player2);
 	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước: \n", arr, a);
-
 	if (arr != nullptr)
 	{
 		string currentPlayer = player1;
+		string currentMark = "X";
+
 		position lastMove;
+
 		int totalMoves = 0;
+
 		bool isFinished = false;
 
 		while (!isFinished)
 		{
-			if (handleUndoOrContinue(arr, history, currentPlayer, totalMoves))
+			if (handleUndoOrContinue(arr, history, currentPlayer, player1, player2, totalMoves))
 			{
+				currentMark = (currentPlayer == player1) ? "X" : "O";
+
 				print(arr, a);
-				continue; // quay lại vòng lặp
+
+				continue;
 			}
 
-			if (makeMove(arr, a, lastMove, currentPlayer))
+			if (makeMove(arr, a, lastMove, currentMark))
 			{
-				push(history, lastMove); // Lưu lịch sử nước đi
+				push(history, lastMove);
 
 				print(arr, a);
+
 				totalMoves++;
 
 				if (checkGameOver(arr, a, lastMove, totalMoves))
 				{
 					isFinished = true;
+
+					cout << "\nNguoi chien thang la: "
+						 << currentPlayer << " [" << currentMark << "]\n";
+
+					if (currentPlayer == player1)
+						win1++;
+					else
+						win2++;
+
+					showScoreBoard(player1, win1,
+								   player2, win2);
+
+					if (playAgain())
+					{
+						resetBoard(arr, a);
+
+						// reset history stack
+						while (!isEmpty(history))
+						{
+							position temp;
+							pop(history, temp);
+						}
+
+						totalMoves = 0;
+
+						isFinished = false;
+
+						currentPlayer = player1;
+
+						currentMark = "X";
+
+						print(arr, a);
+					}
 				}
 				else
 				{
-					switchTurn(currentPlayer); // Chức năng 11
+					// đổi lượt
+					switchTurn(currentPlayer,
+							   player1,
+							   player2);
+
+					// đổi X/O
+					currentMark =
+						(currentMark == "X") ? "O" : "X";
 				}
 			}
 		}
-		deleteArray(arr, a);
 	}
 	return 0;
 }
