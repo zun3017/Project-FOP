@@ -345,13 +345,12 @@ bool handleUndoOrContinue(string **arr,
                        player1,
                        player2);
 
-            cout << "Da hoan tac nuoc di!\n";
+            cout << "Da hoan tac nuoc di!(enter de tiep tuc)\n";
         }
         else
         {
-            cout << "Khong co nuoc de hoan tac!\n";
+            cout << "Khong co nuoc de hoan tac!(enter de tiep tuc)\n";
         }
-
         return true;
     }
 
@@ -410,8 +409,7 @@ void resetBoard(string **arr, mapsize a)
     }
 }
 
-void showScoreBoard(string player1, int win1,
-                    string player2, int win2)
+void showScoreBoard(string player1, int win1, string player2, int win2)
 {
     cout << "\n===== BANG TY SO =====\n";
     cout << player1 << ": " << win1 << " win\n";
