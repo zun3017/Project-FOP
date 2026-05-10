@@ -445,3 +445,22 @@ bool pop(Stack &s, position &x)
     delete temp;
     return true;
 }
+
+int displayAndSelectMenu(string* menuOptions, int numOptions) {
+    int choice;
+    cout << "\n============= MENU GOMOKU =============\n";
+    for (int i = 0; i < numOptions; i++) {
+        // Sử dụng pointer arithmetic để lấy giá trị (Đáp ứng STT 04)
+        cout << "   " << i + 1 << ". " << *(menuOptions + i) << "\n";
+    }
+    cout << "   0. Thoat chuong trinh\n";
+    cout << "=======================================\n";
+    cout << "Nhap lua chon: ";
+    while (!(cin >> choice) || choice < 0 || choice > numOptions) {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << "Khong hop le, nhap lai: ";
+    }
+    cin.ignore(1000, '\n'); 
+    return choice;
+}

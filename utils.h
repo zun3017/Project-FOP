@@ -34,6 +34,7 @@ bool pop(Stack &s, position &x);
 void print(string **arr, mapsize a);
 void enterName(string prompt, string &name);
 void creatmap(string prompt, string **&arr, mapsize &a);
+int displayAndSelectMenu(string* menuOptions, int numOptions);
 bool checkrow(string **arr, mapsize a, position b);
 bool checkcol(string **arr, mapsize a, position b);
 bool checkdiagonal(string **arr, mapsize a, position b);
@@ -46,4 +47,5 @@ void deleteArray(string **arr, mapsize a);
 bool playAgain();
 void showScoreBoard(string player1, int win1, string player2, int win2);
 void resetBoard(string **arr, mapsize a);
+int displayAndSelectMenu(string* menuOptions, int numOptions);
 #endif
