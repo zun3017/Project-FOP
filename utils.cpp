@@ -48,7 +48,7 @@ void print(string **arr, mapsize a)
     }
 }
 
-void enterName(string prompt, string name)
+void enterName(string prompt, string &name)
 {
     cout << prompt;
     getline(cin, name);
@@ -288,9 +288,10 @@ bool checkdiagonal(string **arr, mapsize a, position b)
     }
     return count >= 5;
 }
-void switchTurn(string &currentPlayer)
+
+void switchTurn(string &currentPlayer, string player1, string player2)
 {
-    currentPlayer = (currentPlayer == "X") ? "O" : "X";
+    currentPlayer = (currentPlayer == player1) ? player2 : player1;
 }
 
 bool makeMove(string **arr, mapsize a, position &p, string playerMark)
@@ -299,7 +300,7 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
     if (!(cin >> p.rowp >> p.colp))
     {
         cin.clear();
-        cin.ignore(1000, '\n');
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return false;
     }
     int r = p.rowp + 1;
@@ -349,42 +350,57 @@ bool checkGameOver(string **arr, mapsize a, position p, int moves)
     return false;
 }
 
-bool handleUndoOrContinue(string **arr, Stack &history, string &currentPlayer, int &totalMoves)
+bool handleUndoOrContinue(string **arr,
+                          Stack &history,
+                          string &currentPlayer,
+                          string player1,
+                          string player2,
+                          int &totalMoves)
 {
-    cout << "\nNhap 'u' de undo hoac 'ENTER' de nhap nuoc di: ";
-
+    cout << "\nNhap 'u' de undo hoac ENTER de tiep tuc: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string choice;
     getline(cin, choice);
-
     if (choice == "u")
     {
         position prev;
+
         if (pop(history, prev))
         {
             arr[prev.rowp][prev.colp] = ".";
+
             totalMoves--;
-            switchTurn(currentPlayer);
-            cout << "Da hoan tac nuoc di!\n";
+
+            switchTurn(currentPlayer,
+                       player1,
+                       player2);
+
+            cout << "Da hoan tac nuoc di!(enter de tiep tuc)\n";
         }
         else
         {
-            cout << "Khong co nuoc de hoan tac!\n";
+            cout << "Khong co nuoc de hoan tac!(enter de tiep tuc)\n";
         }
-        return true; // đã xử lý undo
+        return true;
     }
 
-    return false; // tiếp tục nhập nước đi
+    return false;
 }
 
-void undoMove(string **arr, Stack &history, string &currentPlayer, int &totalMoves)
+void undoMove(string **arr, Stack &history, string &currentPlayer, string player1, string player2, int &totalMoves)
 {
     position prev;
+
     if (pop(history, prev))
     {
-        arr[prev.rowp][prev.colp] = "."; // xóa nước đi
+        // xóa nước đi gần nhất
+        arr[prev.rowp][prev.colp] = ".";
+
         totalMoves--;
-        switchTurn(currentPlayer); // trả lại lượt
+
+        // trả lượt lại cho người trước
+        switchTurn(currentPlayer, player1, player2);
+
         cout << "Da hoan tac nuoc di!\n";
     }
     else
@@ -400,4 +416,62 @@ void deleteArray(string **arr, mapsize a)
         delete[] arr[i];
     }
     delete[] arr;
+}
+
+bool playAgain()
+{
+    char choice;
+
+    cout << "\nBan co muon choi tiep khong? (y/n): ";
+    cin >> choice;
+
+    return (choice == 'y' || choice == 'Y');
+}
+
+void resetBoard(string **arr, mapsize a)
+{
+    for (int i = 1; i < a.row; i++)
+    {
+        for (int j = 1; j < a.col; j++)
+        {
+            arr[i][j] = ".";
+        }
+    }
+}
+
+void showScoreBoard(string player1, int win1, string player2, int win2)
+{
+    cout << "\n===== BANG TY SO =====\n";
+    cout << player1 << ": " << win1 << " win\n";
+    cout << player2 << ": " << win2 << " win\n";
+    cout << "======================\n";
+}
+
+void init(Stack &s)
+{
+    s.top = nullptr;
+}
+
+bool isEmpty(Stack s)
+{
+    return s.top == nullptr;
+}
+void push(Stack &s, position x)
+{
+    Node *newNode = new Node;
+    newNode->data = x;
+    newNode->next = s.top;
+    s.top = newNode;
+}
+
+bool pop(Stack &s, position &x)
+{
+    if (isEmpty(s))
+        return false;
+
+    Node *temp = s.top;
+    x = temp->data;
+    s.top = temp->next;
+    delete temp;
+    return true;
 }

@@ -26,3 +26,8 @@
 | 11 | Luân phiên lượt chơi | Use control flow statements |
 | 12 | Chế độ 2 người chơi | Manipulate input and output & Use control flow statements |
 | 13 | Câp phát bàn cờ động | Describe and use different types of pointers in C/C++ & Apply C/C++ pointers to manage dynamic array and string |
+
+## c. cách sử dụng:
+```
+    Sử dụng lệnh g++ *.cpp -o -program.exe để compile
+```
