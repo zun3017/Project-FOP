@@ -16,7 +16,7 @@ int main()
 	string player1, player2;
 	enterName("Nhap ten nguoi choi X: ", player1);
 	enterName("Nhap ten nguoi choi O: ", player2);
-	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước: \n", arr, a);
+	creatmap("Nguoi choi lua chon kich thuoc ban do hoac tu nhap kich thuoc: \n", arr, a);
 
 	if (arr != nullptr)
 	{

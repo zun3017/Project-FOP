@@ -1,11 +1,40 @@
 #include <iostream>
-#include <print>
 #include <iomanip>
 #include <string>
 #include <limits>
 #include "utils.h"
 
 using namespace std;
+
+// 1. Khởi tạo Stack trống
+void init(Stack &s) {
+    s.top = nullptr;
+}
+
+// 2. Kiểm tra Stack có đang trống không
+bool isEmpty(Stack s) {
+    return s.top == nullptr;
+}
+
+// 3. Thêm một nước đi mới vào lịch sử (Push)
+void push(Stack &s, position x) {
+    Node *newNode = new Node;
+    newNode->data = x;
+    newNode->next = s.top;
+    s.top = newNode;
+}
+
+// 4. Lấy nước đi cuối cùng ra để Undo (Pop)
+bool pop(Stack &s, position &x) {
+    if (isEmpty(s)) {
+        return false;
+    }
+    Node *temp = s.top;
+    x = temp->data;
+    s.top = s.top->next;
+    delete temp;
+    return true;
+}
 
 void print(string **arr, mapsize a)
 {
@@ -32,28 +61,28 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     cout << prompt << endl;
     do
     {
-        cout << "Lựa chọn kích thước bản đồ sẵn có nhập 0, tự nhập kích thước chọn 1, quay lại màn hình chính chọn 2 \n";
+        cout << "Lua chon kich thuoc ban do san co nhap 0, tu nhap kich thuoc chon 1, quay lai man hinh chinh chon 2 \n";
         cin >> choice;
         if (cin.fail())
         {
             cin.clear();
             cin.ignore(1000, '\n');
             choice = -1;
-            cout << "Lựa chọn của bạn chưa chính xác vui lòng nhập lại lựa chọn của bạn: ";
+            cout << "Lua chon cua ban chua chinh xac vui long nhap lai lua chon cua ban:";
         }
     } while (choice > 2 || choice < 0);
     if (choice == 0)
     {
         do
         {
-            cout << "Kích thước bản đồ tự chọn gồm có 0: 3x3, 1: 5x5, 2: 10x10, 3: 15x15, 4: 20x20 \n";
+            cout << "Kich thuoc ban do tu chon gom co 0: 3x3, 1: 5x5, 2: 10x10, 3: 15x15, 4: 20x20 \n";
             cin >> choice;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(1000, '\n');
                 choice = -1;
-                cout << "Lựa chọn của bạn chưa chính xác vui lòng nhập lại lựa chọn của bạn: \n";
+                cout << "Lua chon cua ban chua chinh xac vui long nhap lai lua chon cua ban: \n";
             }
             else if (choice == 0)
             {
@@ -86,30 +115,30 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     }
     else if (choice == 1)
     {
-        cout << "Nhập kích thước mà bạn mong muốn \n";
+        cout << "Nhap kich thuoc ma ban mong muon \n";
         do
         {
-            cout << "Nhập độ dài hàng: ";
+            cout << "Nhap do dai hang: ";
             cin >> a.row;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(1000, '\n');
                 a.row = -2;
-                cout << "Độ dài hàng bạn nhập chưa đúng vui lòng nhập lại: \n";
+                cout << "Do dai hang ban nhap chua dung vui long nhap lai: \n";
             }
             a.row++;
         } while (a.row < 0);
         do
         {
-            cout << "Nhập độ dài cột: ";
+            cout << "Nhap do dai cot: ";
             cin >> a.col;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(1000, '\n');
                 a.col = -2;
-                cout << "Độ dài cột bạn nhập chưa đúng vui lòng nhập lại : \n";
+                cout << "Do dai cot ban nhap chua dung vui long nhap lai : \n";
             }
             a.col++;
         } while (a.col < 0);
@@ -371,33 +400,4 @@ void deleteArray(string **arr, mapsize a)
         delete[] arr[i];
     }
     delete[] arr;
-}
-
-void init(Stack &s)
-{
-    s.top = nullptr;
-}
-
-bool isEmpty(Stack s)
-{
-    return s.top == nullptr;
-}
-void push(Stack &s, position x)
-{
-    Node *newNode = new Node;
-    newNode->data = x;
-    newNode->next = s.top;
-    s.top = newNode;
-}
-
-bool pop(Stack &s, position &x)
-{
-    if (isEmpty(s))
-        return false;
-
-    Node *temp = s.top;
-    x = temp->data;
-    s.top = temp->next;
-    delete temp;
-    return true;
 }
