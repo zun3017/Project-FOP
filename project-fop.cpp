@@ -103,5 +103,7 @@ int main()
 		}
 		deleteArray(arr, a);
 	}
+	cout << "Chuong trinh ket thuc. Bam ENTER de thoat...";
+	cin.ignore();
 	return 0;
 }

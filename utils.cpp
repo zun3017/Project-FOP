@@ -6,36 +6,6 @@
 
 using namespace std;
 
-// 1. Khởi tạo Stack trống
-void init(Stack &s) {
-    s.top = nullptr;
-}
-
-// 2. Kiểm tra Stack có đang trống không
-bool isEmpty(Stack s) {
-    return s.top == nullptr;
-}
-
-// 3. Thêm một nước đi mới vào lịch sử (Push)
-void push(Stack &s, position x) {
-    Node *newNode = new Node;
-    newNode->data = x;
-    newNode->next = s.top;
-    s.top = newNode;
-}
-
-// 4. Lấy nước đi cuối cùng ra để Undo (Pop)
-bool pop(Stack &s, position &x) {
-    if (isEmpty(s)) {
-        return false;
-    }
-    Node *temp = s.top;
-    x = temp->data;
-    s.top = s.top->next;
-    delete temp;
-    return true;
-}
-
 void print(string **arr, mapsize a)
 {
     for (int i = 0; i < a.row; i++)
