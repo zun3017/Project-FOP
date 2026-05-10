@@ -23,7 +23,6 @@ void enterName(string prompt, string &name)
     cout << prompt;
     getline(cin, name);
 }
-
 void creatmap(string prompt, string **&arr, mapsize &a)
 {
     int size = 0;
@@ -38,7 +37,7 @@ void creatmap(string prompt, string **&arr, mapsize &a)
             cin.clear();
             cin.ignore(1000, '\n');
             choice = -1;
-            cout << "Lua chon cua ban chua chinh xac vui long nhap lai lua chon cua ban:";
+            cout << "Lua chon cua ban chua chinh xac vui long nhap lai lua chon cua ban: ";
         }
     } while (choice > 2 || choice < 0);
     if (choice == 0)
@@ -90,7 +89,7 @@ void creatmap(string prompt, string **&arr, mapsize &a)
         {
             cout << "Nhap do dai hang: ";
             cin >> a.row;
-            if (cin.fail())
+            if (cin.fail() || a.row < 3)
             {
                 cin.clear();
                 cin.ignore(1000, '\n');
@@ -103,7 +102,7 @@ void creatmap(string prompt, string **&arr, mapsize &a)
         {
             cout << "Nhap do dai cot: ";
             cin >> a.col;
-            if (cin.fail())
+            if (cin.fail() || a.col < 3)
             {
                 cin.clear();
                 cin.ignore(1000, '\n');
@@ -146,7 +145,6 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     }
     print(arr, a);
 }
-
 bool checkrow(string **arr, mapsize a, position b)
 {
     int count = 0;
@@ -286,34 +284,40 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
     return false;
 }
 
-bool checkGameOver(string **arr, mapsize a, position p, int moves)
-{
+   bool checkGameOver(string** arr, mapsize a, position p, int moves) {
     string mark = arr[p.rowp][p.colp];
-    int dr[] = {0, 1, 1, 1}; // Ngang, Dọc, Chéo xuôi, Chéo ngược
-    int dc[] = {1, 0, 1, -1};
+    int dr[] = { 0, 1, 1, 1 }; // Ngang, Dọc, Chéo xuôi, Chéo ngược
+    int dc[] = { 1, 0, 1, -1 };
 
-    for (int i = 0; i < 4; i++)
-    {
+    // Xác định điều kiện thắng: 
+    // Nếu 2 < row < 5 VÀ 2 < col < 5 (tức là map 3x3 hoặc 4x4) thì cần 3 quân
+    int winCondition = 5;
+    if (a.row > 2 && a.row < 5 && a.col > 2 && a.col < 5) {
+        winCondition = 3;
+    }
+
+    for (int i = 0; i < 4; i++) {
         int count = 1;
-        for (int dir = -1; dir <= 1; dir += 2)
-        {
+        for (int dir = -1; dir <= 1; dir += 2) {
             int r = p.rowp + dr[i] * dir;
             int c = p.colp + dc[i] * dir;
-            while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark)
-            {
+            
+            // Lưu ý: Sửa r > 0 thành r >= 0 nếu mảng của bạn bắt đầu từ index 0
+            while (r >= 0 && r < a.row && c >= 0 && c < a.col && arr[r][c] == mark) {
                 count++;
                 r += dr[i] * dir;
                 c += dc[i] * dir;
             }
         }
-        if (count >= 5)
-        {
+
+        if (count >= winCondition) {
             cout << "\nNGUOI CHOI [" << mark << "] CHIEN THANG!\n";
             return true;
         }
     }
-    if (moves == (a.row - 1) * (a.col - 1))
-    {
+
+    // Kiểm tra hòa: Tính toán tổng số ô dựa trên cách bạn quản lý index (ở đây giả định là a.row * a.col)
+    if (moves == a.row * a.col) {
         cout << "\nKET QUA HOA!\n";
         return true;
     }
