@@ -19,6 +19,12 @@ void print(string **arr, mapsize a)
     }
 }
 
+void enterName(string prompt, string name)
+{
+    cout << prompt;
+    getline(cin, name);
+}
+
 void creatmap(string prompt, string **&arr, mapsize &a)
 {
     int size = 0;
@@ -142,7 +148,7 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     print(arr, a);
 }
 
-bool checkraw(string **arr, mapsize a, position b)
+bool checkrow(string **arr, mapsize a, position b)
 {
     int count = 0;
     string check = arr[b.rowp][b.colp];

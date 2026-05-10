@@ -1,5 +1,5 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef _UTILS_H_
+#define _UTILS_H_
 #include <string>
 using namespace std;
 
@@ -57,8 +57,9 @@ bool pop(Stack &s, position &x)
 }
 
 void print(string **arr, mapsize a);
+void enterName(string prompt, string name);
 void creatmap(string prompt, string **&arr, mapsize &a);
-bool checkraw(string **arr, mapsize a, position b);
+bool checkrow(string **arr, mapsize a, position b);
 bool checkcol(string **arr, mapsize a, position b);
 bool checkdiagonal(string **arr, mapsize a, position b);
 void switchTurn(string &currentPlayer);

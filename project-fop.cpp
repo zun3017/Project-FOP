@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <limits>
-#include "utils.cpp"
+#include "utils.h"
 
 using namespace std;
 
@@ -13,11 +13,14 @@ int main()
 	string **arr = nullptr;
 	Stack history;
 	init(history);
+	string player1, player2;
+	enterName("Nhap ten nguoi choi X: ", player1);
+	enterName("Nhap ten nguoi choi O: ", player2);
 	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước: \n", arr, a);
 
 	if (arr != nullptr)
 	{
-		string currentPlayer = "X";
+		string currentPlayer = player1;
 		position lastMove;
 		int totalMoves = 0;
 		bool isFinished = false;
