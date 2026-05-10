@@ -372,3 +372,32 @@ void deleteArray(string **arr, mapsize a)
     }
     delete[] arr;
 }
+
+void init(Stack &s)
+{
+    s.top = nullptr;
+}
+
+bool isEmpty(Stack s)
+{
+    return s.top == nullptr;
+}
+void push(Stack &s, position x)
+{
+    Node *newNode = new Node;
+    newNode->data = x;
+    newNode->next = s.top;
+    s.top = newNode;
+}
+
+bool pop(Stack &s, position &x)
+{
+    if (isEmpty(s))
+        return false;
+
+    Node *temp = s.top;
+    x = temp->data;
+    s.top = temp->next;
+    delete temp;
+    return true;
+}
