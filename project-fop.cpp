@@ -17,46 +17,54 @@ int main()
 	int win2 = 0;
 	enterName("Nhap ten nguoi choi X: ", player1);
 	enterName("Nhap ten nguoi choi O: ", player2);
-	creatmap("Người chơi lựa chọn chọn kích thước bản đồ hoặc tự nhập kích thước: \n", arr, a);
+	creatmap("Nguoi choi lua chon kich thuoc ban do:\n", arr, a);
 	if (arr != nullptr)
 	{
-		string currentPlayer = player1;
-		string currentMark = "X";
 		position lastMove;
 		int totalMoves = 0;
 		bool isFinished = false;
+		bool player1Starts = true;
+		string currentPlayer = player1;
+		string currentMark = "X";
 		while (!isFinished)
 		{
+			// undo
 			if (handleUndoOrContinue(arr, history, currentPlayer, player1, player2, totalMoves))
 			{
 				currentMark = (currentPlayer == player1) ? "X" : "O";
 				print(arr, a);
+
 				continue;
 			}
+			// đánh cờ
 			if (makeMove(arr, a, lastMove, currentMark))
 			{
 				push(history, lastMove);
 				print(arr, a);
 				totalMoves++;
+				// kiểm tra thắng/hòa
 				if (checkGameOver(arr, a, lastMove, totalMoves))
 				{
 					isFinished = true;
-
-					cout << "\nNguoi chien thang la: "
-						 << currentPlayer << " [" << currentMark << "]\n";
-
-					if ((a.row - 1) * (a.col - 1))
-						;
-
-					else if (currentPlayer == player1)
-						win1++;
+					if (totalMoves ==
+						(a.row - 1) * (a.col - 1))
+					{
+						cout << "\nTran dau hoa!\n";
+					}
 					else
-						win2++;
+					{
+						cout << "\nNguoi chien thang la: " << currentPlayer << " [" << currentMark << "]\n";
+						if (currentPlayer == player1)
+							win1++;
+						else
+							win2++;
+					}
 					showScoreBoard(player1, win1, player2, win2);
+					// chơi tiếp?
 					if (playAgain())
 					{
 						resetBoard(arr, a);
-						// reset history stack
+						// reset stack
 						while (!isEmpty(history))
 						{
 							position temp;
@@ -64,9 +72,24 @@ int main()
 						}
 						totalMoves = 0;
 						isFinished = false;
-						currentPlayer = player1;
-						currentMark = "X";
+						// đổi người đi trước
+						player1Starts =
+							!player1Starts;
+						if (player1Starts)
+						{
+							currentPlayer = player1;
+							currentMark = "X";
+						}
+						else
+						{
+							currentPlayer = player2;
+							currentMark = "O";
+						}
 						print(arr, a);
+					}
+					else
+					{
+						break;
 					}
 				}
 				else
@@ -78,6 +101,7 @@ int main()
 				}
 			}
 		}
+		deleteArray(arr, a);
 	}
 	return 0;
 }
