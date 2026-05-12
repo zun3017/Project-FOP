@@ -17,7 +17,6 @@ int main()
     do {
         menuChoice = displayAndSelectMenu(menuOptions, 2);
         if (menuChoice == 1) { 
-            // Giữ nguyên toàn bộ code cũ của cậu từ đây...
 	mapsize a = {0, 0};
 	string **arr = nullptr;
 	Stack history;
@@ -113,12 +112,11 @@ int main()
 		}
 		deleteArray(arr, a);
 	}
-	// ... kết thúc code cũ của cậu
         } 
         else if (menuChoice == 2) {
             cout << "\n--- HUONG DAN ---\n";
             cout << "Tao thanh 5 nuoc thang hang de chien thang cho 5+ x 5+!\n";
-			cout << "Tao thanh 5 nuoc thang hang de chien thang cho 3 x 3!";
+			cout << "Tao thanh 3 nuoc thang hang de chien thang cho 3+ x 3+!";
         }
     } while (menuChoice != 0);
 
