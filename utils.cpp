@@ -145,6 +145,7 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     }
     print(arr, a);
 }
+
 void switchTurn(string &currentPlayer, string player1, string player2)
 {
     currentPlayer = (currentPlayer == player1) ? player2 : player1;
@@ -164,7 +165,7 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
     if (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == ".")
     {
         arr[r][c] = playerMark;
-        p.rowp = r; // Cập nhật vị trí thực tế trong mảng để kiểm tra thắng
+        p.rowp = r;
         p.colp = c;
         return true;
     }
@@ -172,103 +173,69 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
     return false;
 }
 
-   bool checkGameOver(string** arr, mapsize a, position p, int moves) {
+bool checkGameOver(string **arr, mapsize a, position p, int moves)
+{
     string mark = arr[p.rowp][p.colp];
-    int dr[] = { 0, 1, 1, 1 }; // Ngang, Dọc, Chéo xuôi, Chéo ngược
-    int dc[] = { 1, 0, 1, -1 };
-
-    // Xác định điều kiện thắng: 
-    // Nếu 2 < row < 5 VÀ 2 < col < 5 (tức là map 3x3 hoặc 4x4) thì cần 3 quân
+    int dr[] = {0, 1, 1, 1};
+    int dc[] = {1, 0, 1, -1};
     int winCondition = 5;
-    if (a.row > 2 && a.row < 5 && a.col > 2 && a.col < 5) {
+    if (a.row > 2 && a.row < 5 && a.col > 2 && a.col < 5)
+    {
         winCondition = 3;
     }
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         int count = 1;
-        for (int dir = -1; dir <= 1; dir += 2) {
+        for (int dir = -1; dir <= 1; dir += 2)
+        {
             int r = p.rowp + dr[i] * dir;
             int c = p.colp + dc[i] * dir;
-            
-            // Lưu ý: Sửa r > 0 thành r >= 0 nếu mảng của bạn bắt đầu từ index 0
-            while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark) {
+            while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark)
+            {
                 count++;
                 r += dr[i] * dir;
                 c += dc[i] * dir;
             }
         }
 
-        if (count >= winCondition) {
+        if (count >= winCondition)
+        {
             cout << "\nNGUOI CHOI [" << mark << "] CHIEN THANG!\n";
             return true;
         }
     }
-
-    // Kiểm tra hòa: Tính toán tổng số ô dựa trên cách bạn quản lý index (ở đây giả định là a.row * a.col)
-    if (moves == (a.row - 1) * (a.col - 1 )) {
+    if (moves == (a.row - 1) * (a.col - 1))
+    {
         cout << "\nKET QUA HOA!\n";
         return true;
     }
     return false;
 }
 
-bool handleUndoOrContinue(string **arr,
-                          Stack &history,
-                          string &currentPlayer,
-                          string player1,
-                          string player2,
-                          int &totalMoves)
+bool UndoOrContinue(string **arr, Stack &history, string &currentPlayer, string player1, string player2, int &totalMoves)
 {
-    cout << "\nNhap 'u' de undo hoac ENTER de tiep tuc: ";
+    cout << "\nNhap 'u' de undo hoac ENTER de tiep tuc(enter 2 lan neu truoc do undo): ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string choice;
     getline(cin, choice);
     if (choice == "u")
     {
         position prev;
-
         if (pop(history, prev))
         {
             arr[prev.rowp][prev.colp] = ".";
-
             totalMoves--;
-
-            switchTurn(currentPlayer,
-                       player1,
-                       player2);
-
+            switchTurn(currentPlayer, player1, player2);
             cout << "Da hoan tac nuoc di!(enter de tiep tuc)\n";
         }
         else
         {
-            cout << "Khong co nuoc de hoan tac!(enter de tiep tuc)\n";
+            cout << "Khong co nuoc de hoan tac!\n";
         }
         return true;
     }
-
     return false;
-}
-
-void undoMove(string **arr, Stack &history, string &currentPlayer, string player1, string player2, int &totalMoves)
-{
-    position prev;
-
-    if (pop(history, prev))
-    {
-        // xóa nước đi gần nhất
-        arr[prev.rowp][prev.colp] = ".";
-
-        totalMoves--;
-
-        // trả lượt lại cho người trước
-        switchTurn(currentPlayer, player1, player2);
-
-        cout << "Da hoan tac nuoc di!\n";
-    }
-    else
-    {
-        cout << "Khong co nuoc de hoan tac!\n";
-    }
 }
 
 void deleteArray(string **arr, mapsize a)
@@ -338,21 +305,23 @@ bool pop(Stack &s, position &x)
     return true;
 }
 
-int displayAndSelectMenu(string* menuOptions, int numOptions) {
+int displayAndSelectMenu(string *menuOptions, int numOptions)
+{
     int choice;
     cout << "\n============= MENU GOMOKU =============\n";
-    for (int i = 0; i < numOptions; i++) {
-        // Sử dụng pointer arithmetic để lấy giá trị (Đáp ứng STT 04)
+    for (int i = 0; i < numOptions; i++)
+    {
         cout << "   " << i + 1 << ". " << *(menuOptions + i) << "\n";
     }
     cout << "   0. Thoat chuong trinh\n";
     cout << "=======================================\n";
     cout << "Nhap lua chon: ";
-    while (!(cin >> choice) || choice < 0 || choice > numOptions) {
+    while (!(cin >> choice) || choice < 0 || choice > numOptions)
+    {
         cin.clear();
         cin.ignore(1000, '\n');
         cout << "Khong hop le, nhap lai: ";
     }
-    cin.ignore(1000, '\n'); 
+    cin.ignore(1000, '\n');
     return choice;
 }
