@@ -175,41 +175,27 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
 
 bool checkGameOver(string **arr, mapsize a, position p, int moves)
 {
-    // Lấy ký tự của nước đi vừa thực hiện (X hoặc O)
     string mark = arr[p.rowp][p.colp];
-
-    // Mảng hướng di chuyển: Ngang, Dọc, Chéo xuôi, Chéo ngược
     int dr[] = { 0, 1, 1, 1 };
     int dc[] = { 1, 0, 1, -1 };
-
-    // Tính toán kích thước thực tế của vùng chơi (loại bỏ hàng/cột tiêu đề)
     int actualRow = a.row - 1;
     int actualCol = a.col - 1;
-
-    // Xác định số quân liên tiếp cần thiết để chiến thắng
-    int winCondition = 5; // Mặc định cho bàn cờ lớn (5x5 trở lên)
-
+    int winCondition = 5;
     if (actualRow == 3 && actualCol == 3)
     {
         winCondition = 3; // Bàn cờ 3x3 cần 3 quân
     }
     else if (actualRow == 4 && actualCol == 4)
     {
-        winCondition = 4; // Bàn cờ 4x4 cần 4 quân
+        winCondition = 4; 
     }
-
-    // Vòng lặp kiểm tra qua 4 hướng đường thẳng
     for (int i = 0; i < 4; i++)
     {
-        int count = 1; // Tính chính quân cờ vừa đánh là 1
-
-        // dir = 1 là tiến về một phía, dir = -1 là lùi về phía đối diện
+        int count = 1;
         for (int dir = -1; dir <= 1; dir += 2)
         {
             int r = p.rowp + dr[i] * dir;
             int c = p.colp + dc[i] * dir;
-
-            // Di chuyển và đếm các quân trùng màu liên tiếp trong phạm vi bàn cờ
             while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark)
             {
                 count++;
@@ -217,24 +203,19 @@ bool checkGameOver(string **arr, mapsize a, position p, int moves)
                 c += dc[i] * dir;
             }
         }
-
-        // Nếu đạt hoặc vượt quá số quân quy định thì kết thúc trận đấu
         if (count >= winCondition)
         {
             cout << "\nNGUOI CHOI [" << mark << "] CHIEN THANG!\n";
             return true;
         }
     }
-
-    // Kiểm tra trạng thái hòa cờ khi đã đánh hết các ô trống trống
     if (moves == actualRow * actualCol)
     {
         cout << "\nKET QUA HOA!\n";
         return true;
     }
-    return false; // Trò chơi tiếp tục
+    return false;
 }
-
 bool UndoOrContinue(string **arr, Stack &history, string &currentPlayer, string player1, string player2, int &totalMoves)
 {
     cout << "\nNhap 'u' de undo hoac ENTER de tiep tuc(enter 2 lan neu truoc do undo): ";
