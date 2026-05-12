@@ -145,118 +145,6 @@ void creatmap(string prompt, string **&arr, mapsize &a)
     }
     print(arr, a);
 }
-bool checkrow(string **arr, mapsize a, position b)
-{
-    int count = 0;
-    string check = arr[b.rowp][b.colp];
-    for (int i = b.colp; i < a.col; i++)
-    {
-        if (arr[b.rowp][i] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    for (int i = b.colp - 1; i > 0; i--)
-    {
-        if (arr[b.rowp][i] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    return count >= 5;
-}
-
-bool checkcol(string **arr, mapsize a, position b)
-{
-    int count = 0;
-    string check = arr[b.rowp][b.colp];
-    for (int i = b.rowp; i < a.row; i++)
-    {
-        if (arr[i][b.colp] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    for (int i = b.rowp - 1; i > 0; i--)
-    {
-        if (arr[i][b.colp] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    return count >= 5;
-}
-
-bool checkdiagonal(string **arr, mapsize a, position b)
-{
-    string check = arr[b.rowp][b.colp];
-    int count = 0;
-    for (int i = b.rowp, j = b.colp; i < a.row && j < a.col; i++, j++)
-    {
-        if (arr[i][j] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    for (int i = b.rowp - 1, j = b.colp - 1; i > 0 && j > 0; i--, j--)
-    {
-        if (arr[i][j] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    if (count >= 5)
-        return true;
-    count = 0;
-    for (int i = b.rowp, j = b.colp; i > 0 && j < a.col; i--, j++)
-    {
-        if (arr[i][j] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    for (int i = b.rowp + 1, j = b.colp - 1; i < a.row && j > 0; i++, j--)
-    {
-        if (arr[i][j] == check)
-        {
-            count++;
-        }
-        else
-        {
-            break;
-        }
-    }
-    return count >= 5;
-}
-
 void switchTurn(string &currentPlayer, string player1, string player2)
 {
     currentPlayer = (currentPlayer == player1) ? player2 : player1;
@@ -303,7 +191,7 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
             int c = p.colp + dc[i] * dir;
             
             // Lưu ý: Sửa r > 0 thành r >= 0 nếu mảng của bạn bắt đầu từ index 0
-            while (r >= 0 && r < a.row && c >= 0 && c < a.col && arr[r][c] == mark) {
+            while (r > 0 && r < a.row && c > 0 && c < a.col && arr[r][c] == mark) {
                 count++;
                 r += dr[i] * dir;
                 c += dc[i] * dir;
@@ -317,7 +205,7 @@ bool makeMove(string **arr, mapsize a, position &p, string playerMark)
     }
 
     // Kiểm tra hòa: Tính toán tổng số ô dựa trên cách bạn quản lý index (ở đây giả định là a.row * a.col)
-    if (moves == a.row * a.col) {
+    if (moves == (a.row - 1) * (a.col - 1 )) {
         cout << "\nKET QUA HOA!\n";
         return true;
     }

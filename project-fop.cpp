@@ -118,7 +118,8 @@ int main()
         else if (menuChoice == 2) {
             cout << "\n--- HUONG DAN ---\n";
             cout << "Tao thanh 5 nuoc thang hang de chien thang cho 5+ x 5+!\n";
-			cout << "Tao thanh 3 nuoc thang hang de chien thang cho 3+ x 3+!";
+			cout << "Tao thanh 3 nuoc thang hang de chien thang cho 3+ x 3+! \n";
+			cout << "Moi van se luan phien thay doi nguoi di truoc";
         }
     } while (menuChoice != 0);
 
