@@ -1,5 +1,7 @@
 *Proposal_25127304_25127467_25127498_25127530*
 
+*Link: [Github](https://github.com/zun3017/Project-FOP)*
+
 # Topic: Game (cờ caro)
 ## a. Các thành viên của nhóm:
 ```
@@ -17,7 +19,7 @@
 | 02 | Hiển thị bàn cờ | Manipulate input and output |
 | 03 | Hiển thị menu | Manipulate input and output |
 | 04 | Chọn chức năng từ menu | Apply C/C++ pointers to manage dynamic array and string |
-| 05 | Hoàn tác nước đi (Undo/Redo) | Use 1-D and 2-D arrays |
+| 05 | Hoàn tác nước đi (Undo/Redo) | Use 1-D and 2-D arrays & stack|
 | 06 | In thông báo / hướng dẫn | Manipulate input and output |
 | 07 | Kiểm tra 5 nước hàng dọc | Use control flow statements & Use 1-D and 2-D arrays |
 | 08 | Kiểm tra 5 nước hàng ngang | Use control flow statements & Use 1-D and 2-D arrays |
@@ -27,7 +29,8 @@
 | 12 | Chế độ 2 người chơi | Manipulate input and output & Use control flow statements |
 | 13 | Câp phát bàn cờ động | Describe and use different types of pointers in C/C++ & Apply C/C++ pointers to manage dynamic array and string |
 
-## c. cách sử dụng:
+## c. Cách sử dụng:
 ```
-    Sử dụng lệnh g++ *.cpp -o -program.exe để compile
+    Sử dụng lệnh g++ *.cpp -o program.exe để compile.
+    Sau đó mở chương trình program và chơi game.
 ```
